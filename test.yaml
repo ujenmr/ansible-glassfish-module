@@ -1,0 +1,5 @@
+---
+  - hosts: test
+    tasks:
+      - name: "Test"
+        glassfish_properties: cluster_config=default-cluster-config property_file=system.props
