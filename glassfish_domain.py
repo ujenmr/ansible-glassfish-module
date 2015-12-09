@@ -57,13 +57,18 @@ def main():
     updated_environment = False
     if rc >= 1:
         if module.params['glassfish_domain'] is not 'domain1':
-            module.run_command(create_asadmin_domain_add_cmd(module), check_rc=True)
+            module.run_command(create_asadmin_domain_add_cmd(module),
+                               check_rc=True)
         updated_environment = True
-        module.run_command(create_asadmin_domain_start_cmd(module), check_rc=True)
-        module.run_command(create_asadmin_enable_secure_admin_cmd(module), check_rc=True)
-        module.run_command(create_asadmin_domain_restart_cmd(module), check_rc=True)
+        module.run_command(create_asadmin_domain_start_cmd(module),
+                           check_rc=True)
+        module.run_command(create_asadmin_enable_secure_admin_cmd(module),
+                           check_rc=True)
+        module.run_command(create_asadmin_domain_restart_cmd(module),
+                           check_rc=True)
 
-    module.exit_json(changed = updated_environment)
+    module.exit_json(changed=updated_environment)
+
 
 # returns:
 # /opt/glassfish3/glassfish/bin/asadmin --user admin \
@@ -74,7 +79,8 @@ def create_asadmin_base_cmd(module):
     asadmin_args.extend([module.params['asadmin_path']])
     asadmin_args.extend(['--user', module.params['glassfish_user']])
     if module.params['glassfish_password_file'] is not None:
-        asadmin_args.extend(['--passwordfile', module.params['glassfish_password_file']])
+        asadmin_args.extend(['--passwordfile',
+                            module.params['glassfish_password_file']])
     if module.params['glassfish_port'] is not None:
         asadmin_args.extend(["--port", module.params['glassfish_port']])
 
@@ -106,7 +112,8 @@ def create_asadmin_domain_add_cmd(module):
     asadmin_args.extend(["create-domain"])
     asadmin_args.extend(['--user', module.params['glassfish_user']])
     if module.params['glassfish_password_file'] is not None:
-        asadmin_args.extend(['--passwordfile', module.params['glassfish_password_file']])
+        asadmin_args.extend(['--passwordfile',
+                            module.params['glassfish_password_file']])
     if module.params['glassfish_port'] is not None:
         asadmin_args.extend(["--portbase", module.params['glassfish_port']])
     asadmin_args.extend([module.params['glassfish_domain']])
@@ -126,6 +133,7 @@ def create_asadmin_domain_start_cmd(module):
 
     return asadmin_args
 
+
 # returns:
 # /opt/glassfish3/glassfish/bin/asadmin --user admin \
 #   --passwordfile /home/glassfish/.glassfishlogin \
@@ -138,6 +146,7 @@ def create_asadmin_domain_restart_cmd(module):
     asadmin_args.extend([module.params['glassfish_domain']])
 
     return asadmin_args
+
 
 # returns:
 # /opt/glassfish3/glassfish/bin/asadmin --user admin \

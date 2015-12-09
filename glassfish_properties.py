@@ -61,7 +61,7 @@ def main():
 
     asadmin_sysprop_list_cmd = create_asadmin_sysprop_list_cmd(module)
     rc, out, err = module.run_command(asadmin_sysprop_list_cmd,
-                                                check_rc=True)
+                                      check_rc=True)
 
     current_properties = {}
     for raw_property in out.split("\n"):
@@ -79,12 +79,16 @@ def main():
     updated_properties = {}
     for property_key in new_properties:
         if property_key in current_properties.keys():
-            if new_properties[property_key] != current_properties[property_key]:
-                module.run_command(create_asadmin_sysprop_delete_cmd(module, property_key))
-                module.run_command(create_asadmin_sysprop_add_cmd(module, property_key, new_properties[property_key]))
+            if new_properties[property_key] != \
+                    current_properties[property_key]:
+                module.run_command(create_asadmin_sysprop_delete_cmd(module,
+                                   property_key))
+                module.run_command(create_asadmin_sysprop_add_cmd(module,
+                                   property_key, new_properties[property_key]))
                 updated_properties[property_key] = new_properties[property_key]
         else:
-            module.run_command(create_asadmin_sysprop_add_cmd(module, property_key, new_properties[property_key]))
+            module.run_command(create_asadmin_sysprop_add_cmd(module,
+                               property_key, new_properties[property_key]))
             updated_properties[property_key] = new_properties[property_key]
 
     if len(updated_properties) >= 1:
@@ -93,7 +97,7 @@ def main():
             'properties': updated_properties
         })
     else:
-        module.exit_json(changed = False)
+        module.exit_json(changed=False)
 
 
 # /opt/glassfish3/glassfish/bin/asadmin --user admin \
@@ -125,6 +129,7 @@ def create_asadmin_sysprop_list_cmd(module):
 
     return asadmin_args
 
+
 # returns
 # /opt/glassfish3/glassfish/bin/asadmin --user admin \
 #   --passwordfile /home/glassfish/.glassfishlogin \
@@ -140,6 +145,7 @@ def create_asadmin_sysprop_delete_cmd(module, property):
     asadmin_args.extend([property])
 
     return asadmin_args
+
 
 # returns
 # /opt/glassfish3/glassfish/bin/asadmin --user admin \
