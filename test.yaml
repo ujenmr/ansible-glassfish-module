@@ -1,5 +1,7 @@
 ---
   - hosts: test
     tasks:
-      - name: "Test"
-        glassfish_properties: cluster_config=default-cluster-config property_file=system.props
+      - name: "Edit glassfish properties"
+        glassfish_properties: cluster_config=gs2c-cluster-config property_file=test.pr
+      - name: "Create domain domain1"
+        glassfish_domain: glassfish_domain=domain1
