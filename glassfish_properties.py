@@ -59,11 +59,11 @@ def main():
     )
 
     asadmin_sysprop_list_cmd = create_asadmin_sysprop_list_cmd(module)
-    rc, asadm_cl_list, err = module.run_command(asadmin_sysprop_list_cmd,
+    rc, out, err = module.run_command(asadmin_sysprop_list_cmd,
                                                 check_rc=True)
 
     current_properties = {}
-    for raw_property in asadm_cl_list.split("\n"):
+    for raw_property in out.split("\n"):
         if "=" in raw_property:
             key, value = raw_property.split("=")
             current_properties[key] = value
@@ -96,7 +96,8 @@ def main():
 
 
 # /opt/glassfish3/glassfish/bin/asadmin --user admin \
-#   --passwordfile /home/glassfish/.glassfishlogin
+#   --passwordfile /home/glassfish/.glassfishlogin \
+#   --port 4848 \
 def create_asadmin_base_cmd(module):
     asadmin_args = []
     asadmin_args.extend([module.params['asadmin_path']])
@@ -114,6 +115,7 @@ def create_asadmin_base_cmd(module):
 # returns:
 # /opt/glassfish3/glassfish/bin/asadmin --user admin \
 #   --passwordfile /home/glassfish/.glassfishlogin \
+#   --port 4848 \
 #   list-system-properties default_cluster-config
 def create_asadmin_sysprop_list_cmd(module):
     asadmin_args = create_asadmin_base_cmd(module)
@@ -125,6 +127,7 @@ def create_asadmin_sysprop_list_cmd(module):
 # returns
 # /opt/glassfish3/glassfish/bin/asadmin --user admin \
 #   --passwordfile /home/glassfish/.glassfishlogin \
+#   --port 4848 \
 #   delete-system-property \
 #   --target default_cluster-config \
 #   property_key
@@ -140,6 +143,7 @@ def create_asadmin_sysprop_delete_cmd(module, property):
 # returns
 # /opt/glassfish3/glassfish/bin/asadmin --user admin \
 #   --passwordfile /home/glassfish/.glassfishlogin \
+#   --port 4848 \
 #   create-system-properties \
 #   --target default_cluster-config \
 #   property_key=property_value
@@ -151,6 +155,7 @@ def create_asadmin_sysprop_add_cmd(module, property, value):
     asadmin_args.extend([property + "=" + value])
 
     return asadmin_args
+
 
 if __name__ == '__main__':
     main()
