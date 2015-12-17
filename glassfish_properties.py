@@ -159,7 +159,7 @@ def create_asadmin_sysprop_add_cmd(module, property, value):
     asadmin_args.extend(["create-system-properties"])
     asadmin_args.extend(["--target",
                          module.params['cluster_config']])
-    asadmin_args.extend([property + "=" + value])
+    asadmin_args.extend([property + "='" + value + "'"])
 
     return asadmin_args
 
